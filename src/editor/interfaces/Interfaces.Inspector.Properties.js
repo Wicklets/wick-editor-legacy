@@ -144,31 +144,6 @@ InspectorInterface.getProperties = function (wickEditor, inspector) {
     }));
 
     properties.push(new InspectorInterface.SelectInput({
-        title: '<img src="resources/image.png" class="inspector-icon"/>',
-        tooltip: 'Image Resource',
-        optionsFn: function () {
-            var imageAssetFilenames = wickEditor.project.library.getAllAssets().filter(function (asset) {
-                return asset.type === 'image';
-            }).map(function (asset) {
-                return asset.filename;
-            });
-            return imageAssetFilenames;
-        },
-        isActiveFn: function () {
-            return selectionInfo.type == 'wickobject'
-                && selectionInfo.dataType == 'image'
-                && selectionInfo.numObjects === 1;
-        },
-        getValueFn: function () {
-            return wickEditor.project.library.getAsset(selectionInfo.object.assetUUID).filename; 
-        },
-        onChangeFn: function (val) {
-            console.error('!! Need action for this !!')
-            selectionInfo.object.assetUUID = wickEditor.project.library.getAssetByName(val).uuid
-        }
-    }));
-
-    properties.push(new InspectorInterface.SelectInput({
         title: '<img src="resources/inspector-icons/fontfamily.svg" class="inspector-icon"/>',
         tooltip: 'Font Family',
         options: getAllGoogleFonts(),
@@ -545,7 +520,7 @@ InspectorInterface.getProperties = function (wickEditor, inspector) {
 
     properties.push(new InspectorInterface.SelectInput({
         title: '<img src="resources/inspector-icons/sound.svg" class="inspector-icon"/>',
-        tooltip: 'Sound Resource',
+        tooltip: 'Sound',
         optionsFn: function () {
             var audioAssetFilenames = wickEditor.project.library.getAllAssets().filter(function (asset) {
                 return asset.type === 'audio';
@@ -573,7 +548,7 @@ InspectorInterface.getProperties = function (wickEditor, inspector) {
         }
     }));
 
-    /*properties.push(new InspectorInterface.SliderInput({
+    properties.push(new InspectorInterface.SliderInput({
         title: '<img src="resources/inspector-icons/volume.svg" class="inspector-icon"/>',
         tooltip: 'Volume',
         min: 0,
@@ -590,7 +565,7 @@ InspectorInterface.getProperties = function (wickEditor, inspector) {
         onChangeFn: function (val) {
             selectionInfo.object.volume = parseFloat(val);
         }
-    }));*/
+    }));
 
     properties.push(new InspectorInterface.MultiCheckboxInput({
         title: '<img src="resources/inspector-icons/ease.svg" class="inspector-icon"/>',

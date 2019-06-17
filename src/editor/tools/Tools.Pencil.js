@@ -78,7 +78,7 @@ Tools.Pencil = function (wickEditor) {
             totalDelta.y += event.delta.y;
         }
 
-        if (totalDelta.length > (2+wickEditor.settings.pencilSmoothing)/wickEditor.canvas.getZoom()) {
+        if (totalDelta.length > 2/wickEditor.canvas.getZoom()) {
 
             totalDelta.x = 0;
             totalDelta.y = 0;
@@ -86,8 +86,6 @@ Tools.Pencil = function (wickEditor) {
             path.add(event.point)
             path.smooth();
             lastEvent = event;
-
-            //path.simplify(1);
 
         }
     }
@@ -105,9 +103,9 @@ Tools.Pencil = function (wickEditor) {
                     var s = wickEditor.settings.pencilSmoothing/100*10;
                     var z = wickEditor.canvas.getZoom();
                     path.simplify(t / z * s);
-                }*/
+                }
 
-                path.join(path, 5/wickEditor.canvas.getZoom())
+                path.join(path, 5/wickEditor.canvas.getZoom())*/
             }
 
             path.remove();

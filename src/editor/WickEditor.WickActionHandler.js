@@ -82,7 +82,6 @@ var WickActionHandler = function (wickEditor) {
         wickEditor.canvas.getInteractiveCanvas().needsUpdate = true;
         if(args && args.dontAddToStack) return;
         wickEditor.project.unsaved = true;
-        wickEditor.project.rootObject.regenerateAssetLinkedSymbols();
         wickEditor.project.rootObject.generateParentObjectReferences();
         wickEditor.project.regenAssetReferences();
         if(!args || !args.dontSync) wickEditor.syncInterfaces();
@@ -325,12 +324,6 @@ var WickActionHandler = function (wickEditor) {
 
                 if(wickObj.updateFrameTween) wickObj.updateFrameTween();
             };
-
-            var source = wickObj.getSourceInside();
-            if(source) {
-                var asset = wickEditor.project.library.getAsset(source.assetUUID);
-                asset.data = source.getAsJSON();
-            }
 
             done(args);
         },

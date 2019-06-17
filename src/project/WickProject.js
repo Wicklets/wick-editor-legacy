@@ -698,23 +698,7 @@ WickProject.prototype.loadScriptOfObject = function (obj) {
         dummyLoaderScript += '\nthis.'+builtinName+"="+builtinName+";";
     });
 
-    var scriptEventsReplaced = obj.wickScript;
-    var onEventFinderRegex = /^ *on *\( *[a-zA-Z]+ *\)/gm
-    var m;
-    do {
-        m = onEventFinderRegex.exec(scriptEventsReplaced, 'g');
-        if (m) {
-            eventName = m[0].split('(')[1].split(')')[0]
-            scriptEventsReplaced = scriptEventsReplaced.replace(m[0], 'function ' + eventName + '()')
-        }
-    } while (m);
-
-    var evalScriptTag = 
-        '<script>\nwindow.cachedWickScripts["'+obj.uuid+'"] = function () {\n' + 
-        dummyInitScript + 
-        scriptEventsReplaced + 
-        dummyLoaderScript + 
-        '\n}\n<'+'/'+'script>';
+    var evalScriptTag = '<script>\nwindow.cachedWickScripts["'+obj.uuid+'"] = function () {\n' + dummyInitScript + obj.wickScript + dummyLoaderScript + '\n}\n<'+'/'+'script>';
     $('head').append(evalScriptTag);
 }
 
@@ -735,7 +719,6 @@ WickProject.prototype.initScript = function (obj) {
         this.loadBuiltinFunctions(obj);
         try {
             obj.cachedWickScript();
-            //obj.cachedWickScript.call(obj instanceof WickObject ? obj : obj.parentObject);
         } catch (e) {
             this.handleWickError(e,obj);
         }
@@ -771,7 +754,7 @@ WickProject.prototype.loadFonts = function (callback) {
     var self = this;
     var fontsInProject = [];
     self.getAllObjects().forEach(function (o) {
-        if(o.isText && o.textData.fontFamily !== 'Arial' && fontsInProject.indexOf(o.textData.fontFamily))
+        if(o.isText && o.textData.fontFamily !== 'Arial' && o.textData.fontFamily !== 'arial' && fontsInProject.indexOf(o.textData.fontFamily))
             fontsInProject.push(o.textData.fontFamily);
     });
     if(fontsInProject.length === 0 && callback) {
